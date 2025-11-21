@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pokedex
+    url: jdbc:postgresql://localhost:5438/pokedex
     username: pokemon
     password: pokemon
 

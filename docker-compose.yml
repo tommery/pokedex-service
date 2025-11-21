@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: pokemon
       POSTGRES_DB: pokedex
     ports:
-      - "5432:5432"
+      - "5438:5432"
     volumes:
       - pokedex_data:/var/lib/postgresql/data
 
