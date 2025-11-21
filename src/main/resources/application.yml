@@ -1,0 +1,15 @@
+server:
+  port: 8079
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pokedex
+    username: pokemon
+    password: pokemon
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

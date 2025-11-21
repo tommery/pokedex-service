@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: pokedex-db
+    environment:
+      POSTGRES_USER: pokemon
+      POSTGRES_PASSWORD: pokemon
+      POSTGRES_DB: pokedex
+    ports:
+      - "5432:5432"
+    volumes:
+      - pokedex_data:/var/lib/postgresql/data
+
+  app:
+    image: pokedex-service
+    container_name: pokedex-app
+    ports:
+      - "8079:8079"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/pokedex
+      SPRING_DATASOURCE_USERNAME: pokemon
+      SPRING_DATASOURCE_PASSWORD: pokemon
+
+volumes:
+  pokedex_data:
