@@ -18,5 +18,5 @@ jobs:
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
           echo "Running deploy script for pokedex-service..."
-          chmod +x /opt/my-project/projects/pokedex-service/deploy-pokedex-service.sh
-          /opt/my-project/projects/pokedex-service/deploy-pokedex-service.sh
+          chmod +x /opt/my-project/build/deploy-pokedex-service.sh
+          /opt/my-project/build/deploy-pokedex-service.sh
