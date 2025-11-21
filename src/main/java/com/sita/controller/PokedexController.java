@@ -32,7 +32,7 @@ public class PokedexController {
 	
 	@GetMapping("/hello")
     public String hello(@RequestParam(required = false, defaultValue = "Moshe") String name) {
-        return "success";
+        return "success take 1";
     }
 	
 	@GetMapping("/all")
