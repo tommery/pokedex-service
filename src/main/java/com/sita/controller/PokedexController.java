@@ -114,6 +114,7 @@ public class PokedexController {
             @RequestParam Integer pokemonId
     ) {
         
+		System.out.println("remove");
 		Long userId = validate(token);
         if (userId<0) {
             return ResponseEntity.status(401).body("Invalid token");
