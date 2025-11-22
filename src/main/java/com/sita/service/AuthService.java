@@ -31,16 +31,13 @@ public class AuthService {
 
         return true;
     }
- 
-    public boolean login(AuthRequest req) {
-        String hashed = hashPassword(req.getPassword());
-
+     
+    public Long login(AuthRequest req) {
         return userRepo.findByEmail(req.getEmail())
-                .map(u -> u.getPasswordHash().equals(hashed))
-                .orElse(false);
+                .filter(u -> u.getPasswordHash().equals(hashPassword(req.getPassword())))
+                .map(User::getId)
+                .orElse(null);
     }
-
-
     
     public String hashPassword(String password) {
         try {

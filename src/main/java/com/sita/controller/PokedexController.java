@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sita.dto.AuthRequest;
 import com.sita.dto.PokemonDto;
 import com.sita.service.AuthService;
+import com.sita.service.JwtService;
 import com.sita.service.PokemonService;
 import com.sita.service.UserPokemonService;
 
@@ -23,14 +24,17 @@ public class PokedexController {
 	private final PokemonService pokemonService;
 	private final AuthService authService;
 	private final UserPokemonService userPokemonService;
+	private final JwtService jwtService;
 	
 	@Autowired  
 	public PokedexController(PokemonService pokemonService,
 			AuthService authService,
-			UserPokemonService userPokemonService) {
+			UserPokemonService userPokemonService,
+			JwtService jwtService) {
         this.pokemonService = pokemonService;
         this.authService = authService;
         this.userPokemonService = userPokemonService;
+        this.jwtService = jwtService;
     }
 	
 	@GetMapping("/hello")
@@ -65,13 +69,24 @@ public class PokedexController {
     }
 	
 	@GetMapping("/login")
-    public ResponseEntity<String> login(@RequestParam(required = true) String email,
-			@RequestParam(required = true) String password) {
-		AuthRequest ar = new AuthRequest();
-		ar.setEmail(email);
-		ar.setPassword(password);
-        boolean ok = authService.login(ar);
-        if (ok) return ResponseEntity.ok("Login successful");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-    }
+	public String login(@RequestParam String email,
+	                               @RequestParam String password) {
+
+	    AuthRequest req = new AuthRequest();
+	    req.setEmail(email);
+	    req.setPassword(password);
+
+	    Long userId = authService.login(req);
+	    if (userId == null) {
+	    	return "Invalid credentials"; 
+	    }
+
+	    return jwtService.generate(userId);
+	}
+
+	@GetMapping("/guest")
+	public String guestToken() {
+	    return jwtService.generateGuestToken();
+	}
+
 }
