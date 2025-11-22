@@ -1,12 +1,13 @@
 package com.sita.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
 import com.sita.dto.PokemonDto;
-import com.sita.model.OwnedPokemonEntity;
+import com.sita.model.OwnedPokemon;
 import com.sita.model.User;
 import com.sita.repository.OwnedPokemonRepository;
 import com.sita.repository.PokemonJsonRepository;
@@ -15,20 +16,20 @@ import com.sita.repository.UserRepository;
 @Service
 public class PokemonService {
 
-    private final PokemonJsonRepository repository;
+    private final PokemonJsonRepository pokemonRepository;
     private final UserRepository userRepository;
     private final OwnedPokemonRepository ownedRepository;
     
     public PokemonService(PokemonJsonRepository repository,
     		UserRepository userRepository,
     		OwnedPokemonRepository ownedRepository) {
-        this.repository = repository;  
+        this.pokemonRepository = repository;  
         this.userRepository = userRepository;
         this.ownedRepository = ownedRepository;
     }
 
     public List<PokemonDto> getAll() {
-        return repository.getAllList();
+        return pokemonRepository.getAllList();
     }
     
     /*public List<PokemonDto> getPokemons() {
@@ -41,13 +42,46 @@ public class PokemonService {
 		
 		List<Integer> ownedIds = ownedRepository.findByUserId(user.getId())
                 .stream()
-                .map(OwnedPokemonEntity::getPokemonId)
+                .map(OwnedPokemon::getPokemonId)
                 .toList();
 		
 		return ownedIds.stream()
-                .map(repository.getAllMap()::get)     
+                .map(pokemonRepository.getAllMap()::get)     
                 .filter(Objects::nonNull)   
                 .toList();
 	}
+	
+	public String addPokemonToUser(Long userId, Integer pokemonId) {
+
+        if (!userRepository.existsById(userId)) {
+            return "User not found";
+        }
+
+        Map<Integer, PokemonDto> pokemonMap = pokemonRepository.getAllMap();
+        if (!pokemonMap.containsKey(pokemonId)) {
+            return "Pokemon not found";
+        }
+
+        if (ownedRepository.existsByUserIdAndPokemonId(userId, pokemonId)) {
+            return "User already owns this Pokémon";
+        }
+
+        OwnedPokemon op = new OwnedPokemon(userId, pokemonId);
+        ownedRepository.save(op);
+
+        return "Pokemon added successfully";
+    }
+	
+	public String removePokemonFromUser(Long userId, Integer pokemonId) {
+
+	    if (!ownedRepository.existsByUserIdAndPokemonId(userId, pokemonId)) {
+	        return "User does not own this Pokémon";
+	    }
+
+	    ownedRepository.deleteByUserIdAndPokemonId(userId, pokemonId);
+
+	    return "Pokemon removed successfully";
+	}
+
 }
 

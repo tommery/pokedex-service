@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "owned_pokemon")
-public class OwnedPokemonEntity {
+public class OwnedPokemon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +21,9 @@ public class OwnedPokemonEntity {
     @Column(name = "pokemon_id", nullable = false)
     private int pokemonId;
 
-    public OwnedPokemonEntity() {}
+    public OwnedPokemon() {}
 
-    public OwnedPokemonEntity(Long userId, int pokemonId) {
+    public OwnedPokemon(Long userId, int pokemonId) {
         this.userId = userId;
         this.pokemonId = pokemonId;
     }

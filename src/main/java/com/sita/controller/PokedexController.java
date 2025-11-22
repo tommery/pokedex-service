@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,7 +92,33 @@ public class PokedexController {
 	    return ResponseEntity.ok(list);
 	}
 
+	@GetMapping("/add")
+    public ResponseEntity<String> addPokemon(
+            @RequestParam String token,
+            @RequestParam Integer pokemonId
+    ) {
+
+        Long userId = jwtService.validate(token);
+        if (userId == null) {
+            return ResponseEntity.status(401).body("Invalid token");
+        }
+
+        String result = pokemonService.addPokemonToUser(userId, pokemonId);
+        return ResponseEntity.ok(result);
+    }
 	
-	
+	@DeleteMapping("/remove")
+    public ResponseEntity<String> removePokemon(
+            @RequestParam String token,
+            @RequestParam Integer pokemonId
+    ) {
+        Long userId = jwtService.validate(token);
+        if (userId == null) {
+            return ResponseEntity.status(401).body("Invalid token");
+        }
+
+        String result = pokemonService.removePokemonFromUser(userId, pokemonId);
+        return ResponseEntity.ok(result);
+    }
 
 }
