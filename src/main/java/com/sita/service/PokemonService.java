@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sita.dto.PokemonDto;
 import com.sita.model.OwnedPokemon;
@@ -76,6 +77,7 @@ public class PokemonService {
         return "Pokemon added successfully";
     }
 	
+	@Transactional
 	public String removePokemonFromUser(Long userId, Integer pokemonId) {
 
 	    if (!ownedRepository.existsByUserIdAndPokemonId(userId, pokemonId)) {
