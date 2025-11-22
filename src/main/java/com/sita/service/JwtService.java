@@ -49,6 +49,7 @@ public class JwtService {
 	        String sub = claims.getSubject();
 
 	        if (sub == null) {
+	        	System.err.println("Invalid Token:" + token);
 	            return null;
 	        }
 
