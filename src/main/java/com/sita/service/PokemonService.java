@@ -36,9 +36,13 @@ public class PokemonService {
     	return repository.getAll();
     }*/
 
-	public List<PokemonDto> getUserCollection(String userEmail) {
-		User user = userRepository.findByEmail(userEmail)
+    public User getUser(String userEmail) {
+    	return userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found: " + userEmail));
+    }
+    
+	public List<PokemonDto> getUserCollection(String userEmail) {
+		User user = getUser(userEmail);
 		
 		List<Integer> ownedIds = ownedRepository.findByUserId(user.getId())
                 .stream()

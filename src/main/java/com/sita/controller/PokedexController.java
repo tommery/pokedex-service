@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sita.dto.AuthRequest;
 import com.sita.dto.PokemonDto;
+import com.sita.model.User;
 import com.sita.service.AuthService;
 import com.sita.service.JwtService;
 import com.sita.service.PokemonService;
@@ -98,11 +99,11 @@ public class PokedexController {
             @RequestParam Integer pokemonId
     ) {
 
-        Long userId = jwtService.validate(token);
-        if (userId == null) {
+		Long userId = validate(token);
+        if (userId<0) {
             return ResponseEntity.status(401).body("Invalid token");
         }
-
+        
         String result = pokemonService.addPokemonToUser(userId, pokemonId);
         return ResponseEntity.ok(result);
     }
@@ -112,13 +113,26 @@ public class PokedexController {
             @RequestParam String token,
             @RequestParam Integer pokemonId
     ) {
-        Long userId = jwtService.validate(token);
-        if (userId == null) {
+        
+		Long userId = validate(token);
+        if (userId<0) {
             return ResponseEntity.status(401).body("Invalid token");
         }
 
         String result = pokemonService.removePokemonFromUser(userId, pokemonId);
         return ResponseEntity.ok(result);
     }
+	
+	private Long validate(String token) {
+		if (!jwtService.validate(token)) {
+			return -1L;
+		}
+		
+		User user = pokemonService.getUser(jwtService.extractEmail(token));
+		
+		return user.getId();
+	}
+	
+	
 
 }

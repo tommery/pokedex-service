@@ -38,7 +38,7 @@ public class JwtService {
                 .getSubject();
     }
   
-	public Long validate(String token) {
+	public boolean validate(String token) {
 	    try {
 	        Claims claims = Jwts.parserBuilder()
 	                .setSigningKey(secretKey)  
@@ -47,22 +47,23 @@ public class JwtService {
 	                .getBody();
 
 	        String sub = claims.getSubject();
-	        System.out.println("sub is "+sub);
+
 	        if (sub == null) {
 	        	System.err.println("Invalid Token:" + token);
-	            return null;
+	            return false;
 	        }
 
-	        // guest user → return 0
-	        if (sub.equals("guest")) {
-	            return 0L;
-	        }
-
-	        return Long.parseLong(sub);
+	        return true;
+//	        // guest user → return 0
+//	        if (sub.equals("guest")) {
+//	            return 0L;
+//	        }
+//
+//	        return Long.parseLong(sub);
 
 	    } catch (JwtException | IllegalArgumentException e) {
 	        // token invalid / expired / malformed
-	        return null;
+	        return false;
 	    }
 	}
     
