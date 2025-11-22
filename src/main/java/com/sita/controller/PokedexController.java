@@ -3,7 +3,6 @@ package com.sita.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import com.sita.dto.PokemonDto;
 import com.sita.service.AuthService;
 import com.sita.service.JwtService;
 import com.sita.service.PokemonService;
-import com.sita.service.UserPokemonService;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -23,17 +21,14 @@ public class PokedexController {
 	
 	private final PokemonService pokemonService;
 	private final AuthService authService;
-	private final UserPokemonService userPokemonService;
 	private final JwtService jwtService;
 	
 	@Autowired  
 	public PokedexController(PokemonService pokemonService,
 			AuthService authService,
-			UserPokemonService userPokemonService,
 			JwtService jwtService) {
         this.pokemonService = pokemonService;
         this.authService = authService;
-        this.userPokemonService = userPokemonService;
         this.jwtService = jwtService;
     }
 	
@@ -81,12 +76,22 @@ public class PokedexController {
 	    	return "Invalid credentials"; 
 	    }
 
-	    return jwtService.generate(userId);
+	    return jwtService.generateToken(email);
 	}
 
 	@GetMapping("/guest")
 	public String guestToken() {
 	    return jwtService.generateGuestToken();
 	}
+	
+	@GetMapping("/collection")
+	public ResponseEntity<List<PokemonDto>> getUserCollection(@RequestParam String token) {
+		String email = jwtService.extractEmail(token);
+	    List<PokemonDto> list = pokemonService.getUserCollection(email);
+	    return ResponseEntity.ok(list);
+	}
+
+	
+	
 
 }

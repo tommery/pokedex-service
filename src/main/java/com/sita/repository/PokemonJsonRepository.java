@@ -1,31 +1,34 @@
 package com.sita.repository;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sita.dto.PokemonDto;
-
-import com.fasterxml.jackson.core.type.TypeReference;
 
 @Repository
 public class PokemonJsonRepository {
 
-    private final List<PokemonDto> pokemons;
-
+    private List<PokemonDto> pokemonList;
+    private Map<Integer,PokemonDto> pokemonMap;
+    
     public PokemonJsonRepository() {
-        this.pokemons = loadFromJson(); // load once at startup
+        this.pokemonList = null;
+		this.pokemonMap = null;
+		loadFromJson(); // load once at startup
     }
 
-    private List<PokemonDto> loadFromJson() {
-    	List<PokemonDto> pokemons = null;
-    	System.out.println("PokemonJsonRepository: starting to load JSON...");
-    	
-    	try {
+    private void loadFromJson() {
+        System.out.println("PokemonJsonRepository: starting to load JSON...");
+
+        try {
             ObjectMapper mapper = new ObjectMapper();
             ClassPathResource resource = new ClassPathResource("data/Pokedex.json");
 
@@ -34,24 +37,39 @@ public class PokemonJsonRepository {
 
             InputStream is = resource.getInputStream();
 
-            pokemons = mapper.readValue(
+            // טוען את הרשימה מה-JSON
+            List<PokemonDto> loadedList = mapper.readValue(
                     is,
                     new TypeReference<List<PokemonDto>>() {}
             );
 
-            System.out.println("✅ Loaded " + pokemons.size() + " pokemons!");
+            System.out.println("✅ Loaded " + loadedList.size() + " pokemons!");
+
+            // בונה list + map בלולאה אחת
+            this.pokemonList = new ArrayList<>(loadedList.size());
+            this.pokemonMap  = new HashMap<>(loadedList.size());
+
+            for (PokemonDto p : loadedList) {
+                pokemonList.add(p);
+                pokemonMap.put(p.getId(), p);   // בהרשאה שיש לזה getId()
+            }
+
+            System.out.println("Map size: " + pokemonMap.size());
 
         } catch (Exception e) {
             System.out.println("ERROR LOADING JSON: " + e.getClass());
             System.out.println("Message: " + e.getMessage());
             e.printStackTrace();
-            throw new RuntimeException("Failed to load pokedex.json", e);
+            throw new RuntimeException("Failed to load Pokedex.json", e);
         }
-    	
-    	return pokemons;
-	}
+    }
 
-	public List<PokemonDto> getAll() {
-        return pokemons;
+
+	public List<PokemonDto> getAllList() {
+        return pokemonList;
+    }
+	
+	public Map<Integer, PokemonDto> getAllMap() {
+        return pokemonMap;
     }
 }
