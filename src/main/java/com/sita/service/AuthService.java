@@ -7,7 +7,8 @@ import java.util.Base64;
 
 import org.springframework.stereotype.Service;
 
-import com.sita.model.UserEntity;
+import com.sita.dto.AuthRequest;
+import com.sita.model.User;
 import com.sita.repository.UserRepository;
 
 @Service
@@ -19,16 +20,22 @@ public class AuthService {
         this.userRepo = userRepo;
     }
 
-    public void register(String username, String email, String password) {
-        String hash = hashPassword(password);
-        UserEntity user = new UserEntity(username, email, hash);
+    public boolean register(AuthRequest req) {
+        //if (userRepo.existsByEmail(req.getEmail())) return false; TODO
+
+        User user = new User();
+        user.setEmail(req.getEmail());
+        user.setUsername(req.getUsername());
+        user.setPasswordHash(hashPassword(req.getPassword()));
         userRepo.save(user);
+
+        return true;
     }
+ 
+    public boolean login(AuthRequest req) {
+        String hashed = hashPassword(req.getPassword());
 
-    public boolean login(String email, String password) {
-        String hashed = hashPassword(password);
-
-        return userRepo.findByEmail(email)
+        return userRepo.findByEmail(req.getEmail())
                 .map(u -> u.getPasswordHash().equals(hashed))
                 .orElse(false);
     }
