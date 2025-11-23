@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Pokedex Home</title>
+    <base href=".">
     <link rel="stylesheet" th:href="@{css/style.css}">
 	<script th:src="@{js/register.js}"></script>
 	<script th:src="@{js/login.js}"></script>
@@ -15,7 +16,7 @@
         <a href="/home" class="logo">Pokedex</a>
     </div>
     <div>
-        <a href="pokedex">Pokémon List</a>
+        <a href="/pokedex">Pokémon List</a>
         <a href="#" onclick="openLoginModal()">Login</a>
         <a href="#" onclick="openRegisterModal()">Register</a>
     </div>
