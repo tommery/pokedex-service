@@ -48,33 +48,32 @@ public class PokemonService {
         
         
         
-        if (name != null && !name.isBlank()) {
-            String lower = name.toLowerCase();
-
-            stream = stream.filter(p -> {
-                String eng = p.getName().getEnglish();
-                System.out.println("Checking Pokémon: " + eng);
-
-                boolean match = eng != null && eng.toLowerCase().contains(lower);
-                if (match) {
-                    System.out.println("MATCH for: " + eng);
-                }
-                return match;
-            });
-        }
+//        if (name != null && !name.isBlank()) {
+//            String lower = name.toLowerCase();
+//
+//            stream = stream.filter(p -> {
+//                String eng = p.getName().getEnglish();
+//                System.out.println("Checking Pokémon: " + eng);
+//
+//                boolean match = eng != null && eng.toLowerCase().contains(lower);
+//                if (match) {
+//                    System.out.println("MATCH for: " + eng);
+//                }
+//                return match;
+//            });
+//        }
 
         
         
         
         
         // Filter by name (english)
-//        System.out.println(name);
-//        if (name != null && !name.isBlank()) {
-//            String lower = name.toLowerCase();
-//            stream = stream.filter(p ->
-//                p.getName().getEnglish().toLowerCase().contains(lower)
-//            );
-//        }
+        if (name != null && !name.isBlank()) {
+            String lower = name.toLowerCase();
+            stream = stream.filter(p ->
+                p.getName().getEnglish().toLowerCase().contains(lower)
+            );
+        }
 
         // Filter by type
         if (type != null && !type.isBlank()) {
