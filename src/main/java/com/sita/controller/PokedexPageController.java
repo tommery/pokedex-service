@@ -28,7 +28,7 @@ public class PokedexPageController {
         return "home";
     }
 
-	@GetMapping("/list")
+	@GetMapping("/pokedex")
     public String list(Model model) {
         model.addAttribute("pokemon", "test"); 
         return "home";

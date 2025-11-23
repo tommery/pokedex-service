@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Pokedex</title>
+    <title>Pokedex List</title>
     <link rel="stylesheet" th:href="@{css/style.css}">
+	<script th:src="@{js/register.js}"></script>
+	<script th:src="@{js/login.js}"></script>
 </head>
 
 <body>
 
 <div class="navbar">
     <div>
-        <a href="/" class="logo">Pokedex</a>
+        <a href="/home" class="logo">Pokedex</a>
     </div>
     <div>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="/pokedex">Pokémon List</a>
+        <a href="#" onclick="openLoginModal()">Login</a>
+        <a href="#" onclick="openRegisterModal()">Register</a>
     </div>
 </div>
 
