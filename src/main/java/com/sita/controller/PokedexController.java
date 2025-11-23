@@ -47,6 +47,8 @@ public class PokedexController {
 	
 	@GetMapping("/list")
 	public ResponseEntity<PagedResult<PokemonDto>> list(
+			@RequestParam(required = false) String name,
+	        @RequestParam(required = false) String type,
 	        @RequestParam(defaultValue = "1") int page,
 	        @RequestParam(defaultValue = "20") int size) {
 
@@ -55,7 +57,10 @@ public class PokedexController {
 
 	    int internalPage = Math.max(0, page - 1);
 	    
-	    PagedResult<PokemonDto> result = pokemonService.getPaged(internalPage, size);
+	    PagedResult<PokemonDto> result =
+	            pokemonService.getFiltered(name, type, internalPage, size);
+	    
+	    //PagedResult<PokemonDto> result = pokemonService.getPaged(internalPage, size);
 	    return ResponseEntity.ok(result);
 	}
 

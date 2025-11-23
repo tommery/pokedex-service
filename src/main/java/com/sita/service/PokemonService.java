@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,43 @@ public class PokemonService {
     public List<PokemonDto> getAll() {
         return pokemonRepository.getAllList();
     }
+    
+    public PagedResult<PokemonDto> getFiltered(
+            String name,
+            String type,
+            int page,
+            int size) {
+
+        Stream<PokemonDto> stream = pokemonRepository.getAllList().stream();
+
+        // Filter by name (english)
+        if (name != null && !name.isBlank()) {
+            String lower = name.toLowerCase();
+            stream = stream.filter(p ->
+                p.getName().getEnglish().toLowerCase().contains(lower)
+            );
+        }
+
+        // Filter by type
+        if (type != null && !type.isBlank()) {
+            stream = stream.filter(p ->
+                p.getType().stream()
+                      .anyMatch(t -> t.equalsIgnoreCase(type))
+            );
+        }
+
+        List<PokemonDto> filtered = stream.toList();
+        int total = filtered.size();
+
+        int from = page * size;
+        int to = Math.min(from + size, total);
+
+        List<PokemonDto> items =
+                (from >= total) ? List.of() : filtered.subList(from, to);
+
+        return new PagedResult<>(page, size, total, items);
+    }
+
     
     public PagedResult<PokemonDto> getPaged(int page, int size) {
 
