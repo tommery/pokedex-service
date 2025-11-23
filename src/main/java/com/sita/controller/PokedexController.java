@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sita.dto.AuthRequest;
+import com.sita.dto.PagedResult;
 import com.sita.dto.PokemonDto;
 import com.sita.model.User;
 import com.sita.service.AuthService;
@@ -41,6 +42,16 @@ public class PokedexController {
     public List<PokemonDto> getAllPokemons() {
         return pokemonService.getAll();
     }
+	
+	@GetMapping("/list")
+	public ResponseEntity<PagedResult<PokemonDto>> list(
+	        @RequestParam(defaultValue = "1") int page,
+	        @RequestParam(defaultValue = "20") int size) {
+
+	    PagedResult<PokemonDto> result = pokemonService.getPaged(page-1, size);
+	    return ResponseEntity.ok(result);
+	}
+
 	
 	@GetMapping("/pokemon")
 	public ResponseEntity<PokemonDto> getPokemon(@RequestParam int id) {

@@ -1,5 +1,6 @@
 package com.sita.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -7,6 +8,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sita.dto.PagedResult;
 import com.sita.dto.PokemonDto;
 import com.sita.model.OwnedPokemon;
 import com.sita.model.User;
@@ -33,9 +35,23 @@ public class PokemonService {
         return pokemonRepository.getAllList();
     }
     
-    /*public List<PokemonDto> getPokemons() {
-    	return repository.getAll();
-    }*/
+    public PagedResult<PokemonDto> getPaged(int page, int size) {
+
+        List<PokemonDto> all = pokemonRepository.getAllList();
+
+        int total = all.size();
+        int from = page * size;
+        int to = Math.min(from + size, total);
+
+        if (from >= total) {
+            return new PagedResult<>(page, size, total, Collections.emptyList());
+        }
+
+        List<PokemonDto> slice = all.subList(from, to);
+
+        return new PagedResult<>(page, size, total, slice);
+    }
+
 
     public User getUser(String userEmail) {
     	return userRepository.findByEmail(userEmail)
@@ -93,6 +109,8 @@ public class PokemonService {
 		PokemonDto pokemon = pokemonRepository.getAllMap().get(id);
 		return pokemon;
 	}
+
+	
 
 }
 
