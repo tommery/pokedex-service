@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.MessageDigest;
 import java.util.Base64;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.sita.dto.AuthRequest;
@@ -21,13 +22,21 @@ public class AuthService {
     }
 
     public boolean register(AuthRequest req) {
-        //if (userRepo.existsByEmail(req.getEmail())) return false; TODO
+    	if (userRepo.findByEmail(req.getEmail()).isPresent()) {
+    	    return false;
+    	}
 
         User user = new User();
         user.setEmail(req.getEmail());
         user.setUsername(req.getUsername());
         user.setPasswordHash(hashPassword(req.getPassword()));
-        userRepo.save(user);
+        try {
+            userRepo.save(user);
+        } catch (DataIntegrityViolationException e) {
+        	System.err.println("Error occured while trying to save user "+req.getEmail());
+        	e.printStackTrace();
+            return false;
+        }
 
         return true;
     }

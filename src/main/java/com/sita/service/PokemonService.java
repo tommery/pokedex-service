@@ -89,5 +89,10 @@ public class PokemonService {
 	    return "Pokemon removed successfully";
 	}
 
+	public PokemonDto getPokemon(int id) {
+		PokemonDto pokemon = pokemonRepository.getAllMap().get(id);
+		return pokemon;
+	}
+
 }
 

@@ -20,9 +20,12 @@ public class JwtService {
             "THIS_IS_A_VERY_LONG_SECRET_KEY_FOR_HS256_32_BYTES_MINIMUM".getBytes()
     );
 	
-	public String generateToken(String email) {
+	public String generateToken(Long userId) {
+		if (userId == null) {
+			return null;
+		}
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(userId.toString())
                 .setIssuedAt(new Date())
                 .setExpiration(Date.from(Instant.now().plus(24, ChronoUnit.HOURS)))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
@@ -54,22 +57,18 @@ public class JwtService {
 	        }
 
 	        return true;
-//	        // guest user → return 0
-//	        if (sub.equals("guest")) {
-//	            return 0L;
-//	        }
-//
-//	        return Long.parseLong(sub);
+
 
 	    } catch (JwtException | IllegalArgumentException e) {
-	        // token invalid / expired / malformed
+	    	System.err.println("Error occured while trying to parse the token");
+	    	e.printStackTrace();
 	        return false;
 	    }
 	}
     
 	public String generateGuestToken() {
 	    return Jwts.builder()
-	            .setSubject("guest")
+	            .setSubject("0") // guest will get 0 as id
 	            .signWith(secretKey, SignatureAlgorithm.HS256)
 	            .compact();
 	}
