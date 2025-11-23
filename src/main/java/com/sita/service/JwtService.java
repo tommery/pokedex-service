@@ -32,7 +32,7 @@ public class JwtService {
                 .compact();
     }
 	
-	public String extractEmail(String token) {
+	public String extractId(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()

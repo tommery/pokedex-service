@@ -152,9 +152,13 @@ public class PokedexController {
 			return -1L;
 		}
 		
-		User user = pokemonService.getUser(jwtService.extractEmail(token));
-		
-		return user.getId();
+
+		try {
+			return Long.valueOf(jwtService.extractId(token));
+		} catch (NumberFormatException e) {
+			return -1L;
+		}
+
 	}
 	
 	
