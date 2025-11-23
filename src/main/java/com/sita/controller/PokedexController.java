@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sita.dto.AuthRequest;
 import com.sita.dto.PagedResult;
 import com.sita.dto.PokemonDto;
-import com.sita.model.User;
 import com.sita.service.AuthService;
 import com.sita.service.JwtService;
 import com.sita.service.PokemonService;
@@ -66,7 +66,7 @@ public class PokedexController {
 
 	
 	@GetMapping("/pokemon")
-	public ResponseEntity<PokemonDto> getPokemon(@RequestParam int id) {
+	public ResponseEntity<PokemonDto> getPokemon(@PathVariable int id) {
 	    PokemonDto pokemon = pokemonService.getPokemon(id);
 
 	    if (pokemon == null) {
@@ -108,11 +108,9 @@ public class PokedexController {
 	    return ResponseEntity.ok(list);
 	}
 
-	@GetMapping("/add")
+	@PostMapping("/collection/{pokemonId}")
     public ResponseEntity<String> addPokemon(HttpServletRequest request,
-            @RequestParam String token,
-            @RequestParam Integer pokemonId
-    ) {
+            @PathVariable Integer pokemonId) {
 
 		Long userId = getUserIdFromHeader(request);
         if (userId<0) {
@@ -123,10 +121,9 @@ public class PokedexController {
         return ResponseEntity.ok(result);
     }
 	
-	@DeleteMapping("/remove")
+	@DeleteMapping("/collection/{pokemonId}")
     public ResponseEntity<String> removePokemon(HttpServletRequest request,
-            @RequestParam String token,
-            @RequestParam Integer pokemonId) {
+    		@PathVariable Integer pokemonId) {
         
 		Long userId = getUserIdFromHeader(request);
         if (userId<0) {
