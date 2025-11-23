@@ -99,27 +99,88 @@ footer {
 }
 
 
+/* ===== MODAL OVERLAY ===== */
 .modal {
-    display: none;
+    display: none; 
     position: fixed;
-    top: 0;
+    z-index: 1000;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.4);
-    justify-content: center;
-    align-items: center;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.65);
 }
 
+/* ===== MODAL BOX ===== */
 .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
+    background-color: #1e2a38;
+    margin: 10% auto;
+    padding: 25px;
+    border-radius: 15px;
+    width: 350px;
+    color: #e6f4f1;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.3s ease-out;
 }
 
+/* ===== CLOSE BUTTON ===== */
 .close {
     float: right;
+    font-size: 24px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 20px;
+    color: #aaa;
+}
+
+.close:hover {
+    color: white;
+}
+
+/* ===== FORM FIELDS ===== */
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-content label {
+    font-size: 14px;
+    color: #cfe7ff;
+}
+
+.modal-content input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #2b3a4a;
+    color: #fff;
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: #5cd4ba;
+}
+
+/* ===== BUTTON ===== */
+.modal-content button {
+    margin-top: 15px;
+    padding: 10px;
+    background: #3ac3bb;
+    color: #052b2f;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.modal-content button:hover {
+    background: #33b0a9;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
 }

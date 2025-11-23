@@ -55,5 +55,24 @@
     </div>
 </div>
 
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+
+        <h2>Login</h2>
+
+        <form action="/api/v1/login" method="post">
+            <label>Email or Username:</label>
+            <input type="text" name="username" required>
+
+            <label>Password:</label>
+            <input type="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>
