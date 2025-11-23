@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const username = form.elements["username"].value;
             const password = form.elements["password"].value;
 
-            const response = await fetch("/api/v1/register", {
+            const response = await fetch("api/v1/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
