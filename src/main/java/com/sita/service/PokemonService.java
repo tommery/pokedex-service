@@ -58,10 +58,8 @@ public class PokemonService {
                 .orElseThrow(() -> new RuntimeException("User not found: " + userEmail));
     }
     
-	public List<PokemonDto> getUserCollection(String userEmail) {
-		User user = getUser(userEmail);
-		
-		List<Integer> ownedIds = ownedRepository.findByUserId(user.getId())
+	public List<PokemonDto> getUserCollection(Long userId) {
+		List<Integer> ownedIds = ownedRepository.findByUserId(userId)
                 .stream()
                 .map(OwnedPokemon::getPokemonId)
                 .toList();

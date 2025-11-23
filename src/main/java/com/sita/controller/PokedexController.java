@@ -21,6 +21,8 @@ import com.sita.service.AuthService;
 import com.sita.service.JwtService;
 import com.sita.service.PokemonService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/v1")
 public class PokedexController {
@@ -48,7 +50,12 @@ public class PokedexController {
 	        @RequestParam(defaultValue = "1") int page,
 	        @RequestParam(defaultValue = "20") int size) {
 
-	    PagedResult<PokemonDto> result = pokemonService.getPaged(page-1, size);
+		size = Math.min(size, 100);  // max size = 100
+	    size = Math.max(size, 10);   // min size = 10
+
+	    int internalPage = Math.max(0, page - 1);
+	    
+	    PagedResult<PokemonDto> result = pokemonService.getPaged(internalPage, size);
 	    return ResponseEntity.ok(result);
 	}
 
@@ -90,19 +97,19 @@ public class PokedexController {
 	}
 	
 	@GetMapping("/collection")
-	public ResponseEntity<List<PokemonDto>> getUserCollection(@RequestParam String token) {
-		String email = jwtService.extractEmail(token);
-	    List<PokemonDto> list = pokemonService.getUserCollection(email);
+	public ResponseEntity<List<PokemonDto>> getUserCollection(HttpServletRequest request) {
+		Long userId = getUserIdFromHeader(request);
+	    List<PokemonDto> list = pokemonService.getUserCollection(userId);
 	    return ResponseEntity.ok(list);
 	}
 
 	@GetMapping("/add")
-    public ResponseEntity<String> addPokemon(
+    public ResponseEntity<String> addPokemon(HttpServletRequest request,
             @RequestParam String token,
             @RequestParam Integer pokemonId
     ) {
 
-		Long userId = validate(token);
+		Long userId = getUserIdFromHeader(request);
         if (userId<0) {
             return ResponseEntity.status(401).body("Invalid token");
         }
@@ -112,11 +119,11 @@ public class PokedexController {
     }
 	
 	@DeleteMapping("/remove")
-    public ResponseEntity<String> removePokemon(
+    public ResponseEntity<String> removePokemon(HttpServletRequest request,
             @RequestParam String token,
             @RequestParam Integer pokemonId) {
         
-		Long userId = validate(token);
+		Long userId = getUserIdFromHeader(request);
         if (userId<0) {
             return ResponseEntity.status(401).body("Invalid token");
         }
@@ -125,7 +132,22 @@ public class PokedexController {
         return ResponseEntity.ok(result);
     }
 	
-	private Long validate(String token) {
+	private Long getUserIdFromHeader(HttpServletRequest request) {
+	    String header = request.getHeader("Authorization");
+	    if (header == null || !header.startsWith("Bearer ")) {
+	        throw new RuntimeException("Missing or invalid Authorization header");
+	    }
+
+	    String token = header.substring(7); // remove "Bearer "
+	    return extractUserId(token);
+	}
+
+	
+	private Long extractUserId(String token) {
+		if (token == null || token.isBlank()) {
+	        throw new RuntimeException("Missing token");
+	    }
+		
 		if (!jwtService.validate(token)) {
 			return -1L;
 		}
@@ -134,5 +156,7 @@ public class PokedexController {
 		
 		return user.getId();
 	}
+	
+	
 
 }
