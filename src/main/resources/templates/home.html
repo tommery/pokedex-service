@@ -4,6 +4,43 @@
     <meta charset="UTF-8">
     <title>Pokedex Home</title>
     <link rel="stylesheet" th:href="@{css/style.css}">
+    
+    <style>
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+}
+
+.close {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+}
+</style>
+    <script>
+        function openModal() {
+            document.getElementById('registerModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('registerModal').style.display = 'none';
+        }
+    </script>
+
 </head>
 
 <body>
@@ -15,6 +52,8 @@
     <div>
         <a href="/pokedex">Pokémon List</a>
         <a href="/login">Login</a>
+        <a href="#" onclick="openModal()">Register</a>
+        
         <a href="/register">Register</a>
     </div>
 </div>
@@ -31,6 +70,27 @@
 <footer>
     © 2025 Pokedex Exercise
 </footer>
+
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h2>Register</h2>
+
+        <form action="/api/v1/auth/register" method="post">
+            <label>Email:</label>
+            <input type="email" name="email" required>
+
+            <label>Username:</label>
+            <input type="text" name="username" required>
+
+            <label>Password:</label>
+            <input type="password" name="password" required>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>
