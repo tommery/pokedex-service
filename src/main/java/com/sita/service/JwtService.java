@@ -65,14 +65,6 @@ public class JwtService {
 	        return false;
 	    }
 	}
-    
-	public String generateGuestToken() {
-	    return Jwts.builder()
-	            .setSubject("0") // guest will get 0 as id
-	            .signWith(secretKey, SignatureAlgorithm.HS256)
-	            .compact();
-	}
-
-
+  
 }
 

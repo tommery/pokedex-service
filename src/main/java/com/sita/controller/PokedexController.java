@@ -65,7 +65,7 @@ public class PokedexController {
 	}
 
 	
-	@GetMapping("/pokemon")
+	@GetMapping("/pokemon/{id}")
 	public ResponseEntity<PokemonDto> getPokemon(@PathVariable int id) {
 	    PokemonDto pokemon = pokemonService.getPokemon(id);
 
@@ -96,11 +96,6 @@ public class PokedexController {
 	    return ResponseEntity.ok(jwtService.generateToken(userId));
 	}
 
-	@GetMapping("/guest")
-	public String guestToken() {
-	    return jwtService.generateGuestToken();
-	}
-	
 	@GetMapping("/collection")
 	public ResponseEntity<List<PokemonDto>> getUserCollection(HttpServletRequest request) {
 		Long userId = getUserIdFromHeader(request);
