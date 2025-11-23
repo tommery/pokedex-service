@@ -45,6 +45,7 @@ public class PokemonService {
         Stream<PokemonDto> stream = pokemonRepository.getAllList().stream();
 
         // Filter by name (english)
+        System.out.println(name);
         if (name != null && !name.isBlank()) {
             String lower = name.toLowerCase();
             stream = stream.filter(p ->
