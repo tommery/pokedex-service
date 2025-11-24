@@ -42,10 +42,24 @@ public class AuthService {
     }
      
     public Long login(AuthRequest req) {
-        return userRepo.findByEmail(req.getEmail())
+    	
+    	return userRepo.findByEmail(req.getEmail())
+                .map(u -> {
+                    System.out.println("User found: "+ u.getId());
+                    String hashed = hashPassword(req.getPassword());
+                    System.out.println("Comparing hashes: expected="+u.getPasswordHash()+" provided="+hashed);
+                    return u.getPasswordHash().equals(hashed) ? u.getId() : null;
+                })
+                .orElseGet(() -> {
+                	System.out.println("User not found for email: "+ req.getEmail());
+                    return null;
+                });
+    	
+    	
+        /*return userRepo.findByEmail(req.getEmail())
                 .filter(u -> u.getPasswordHash().equals(hashPassword(req.getPassword())))
                 .map(User::getId)
-                .orElse(null);
+                .orElse(null);*/
     }
     
     public String hashPassword(String password) {
