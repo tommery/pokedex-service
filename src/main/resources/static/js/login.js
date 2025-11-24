@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const message = await response.text();
 			localStorage.setItem("jwt", message);
+			closeLoginModal();
         });
     }
-    closeLoginModal();
+    
 });
