@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             const message = await response.text();
-            alert(message);
-			localStorage.setItem("jwt", data.token);
+			localStorage.setItem("jwt", message);
         });
     }
+    closeLoginModal();
 });
