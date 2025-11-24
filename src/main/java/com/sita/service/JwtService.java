@@ -7,6 +7,9 @@ import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
+import com.sita.logging.AppLogger;
+import com.sita.logging.Log;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -15,6 +18,8 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
+
+	private static final AppLogger log = Log.get(JwtService.class);
 
 	private final Key secretKey = Keys.hmacShaKeyFor(
             "THIS_IS_A_VERY_LONG_SECRET_KEY_FOR_HS256_32_BYTES_MINIMUM".getBytes()
@@ -52,7 +57,7 @@ public class JwtService {
 	        String sub = claims.getSubject();
 
 	        if (sub == null) {
-	        	System.err.println("Invalid Token:" + token);
+	        	log.error("Invalid Token {}",token);
 	            return false;
 	        }
 
@@ -60,8 +65,7 @@ public class JwtService {
 
 
 	    } catch (JwtException | IllegalArgumentException e) {
-	    	System.err.println("Error occured while trying to parse the token");
-	    	e.printStackTrace();
+	    	log.error("Failed parsing the token {}",token);
 	        return false;
 	    }
 	}

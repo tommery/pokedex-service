@@ -6,11 +6,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sita.dto.PagedResult;
 import com.sita.dto.PokemonDto;
+import com.sita.logging.AppLogger;
+import com.sita.logging.Log;
 import com.sita.model.OwnedPokemon;
 import com.sita.model.User;
 import com.sita.repository.OwnedPokemonRepository;
@@ -19,6 +22,8 @@ import com.sita.repository.UserRepository;
 
 @Service
 public class PokemonService {
+
+	private static final AppLogger log = Log.get(PokemonService.class);
 
     private final PokemonJsonRepository pokemonRepository;
     private final UserRepository userRepository;
@@ -43,29 +48,6 @@ public class PokemonService {
             int size) {
 
         Stream<PokemonDto> stream = pokemonRepository.getAllList().stream();
-
-        
-        
-        
-        
-//        if (name != null && !name.isBlank()) {
-//            String lower = name.toLowerCase();
-//
-//            stream = stream.filter(p -> {
-//                String eng = p.getName().getEnglish();
-//                System.out.println("Checking Pokémon: " + eng);
-//
-//                boolean match = eng != null && eng.toLowerCase().contains(lower);
-//                if (match) {
-//                    System.out.println("MATCH for: " + eng);
-//                }
-//                return match;
-//            });
-//        }
-
-        
-        
-        
         
         // Filter by name (english)
         if (name != null && !name.isBlank()) {
@@ -92,7 +74,7 @@ public class PokemonService {
         List<PokemonDto> items =
                 (from >= total) ? List.of() : filtered.subList(from, to);
 
-        return new PagedResult<>(page, size, total, items);
+        return new PagedResult<>(page+1, size, total, items);
     }
 
     
@@ -139,10 +121,12 @@ public class PokemonService {
 
         Map<Integer, PokemonDto> pokemonMap = pokemonRepository.getAllMap();
         if (!pokemonMap.containsKey(pokemonId)) {
+        	log.debug("Unable loading Pokemon {}", pokemonId);
             return "Pokemon not found";
         }
 
         if (ownedRepository.existsByUserIdAndPokemonId(userId, pokemonId)) {
+        	log.debug("Failed adding Pokemon {} tio user", pokemonId);
             return "User already owns this Pokémon";
         }
 
