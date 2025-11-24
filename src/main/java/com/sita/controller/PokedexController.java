@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sita.dto.AuthRequest;
 import com.sita.dto.PagedResult;
 import com.sita.dto.PokemonDto;
+import com.sita.logging.AppLogger;
+import com.sita.logging.Log;
 import com.sita.service.AuthService;
 import com.sita.service.JwtService;
 import com.sita.service.PokemonService;
@@ -26,6 +28,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api/v1")
 public class PokedexController {
+	
+	private static final AppLogger log = Log.get(PokedexController.class);
 	
 	private final PokemonService pokemonService;
 	private final AuthService authService;
@@ -60,10 +64,8 @@ public class PokedexController {
 	    PagedResult<PokemonDto> result =
 	            pokemonService.getFiltered(name, type, internalPage, size);
 	    
-	    //PagedResult<PokemonDto> result = pokemonService.getPaged(internalPage, size);
 	    return ResponseEntity.ok(result);
 	}
-
 	
 	@GetMapping("/pokemon/{id}")
 	public ResponseEntity<PokemonDto> getPokemon(@PathVariable int id) {
@@ -81,6 +83,7 @@ public class PokedexController {
 	public ResponseEntity<String> register(@RequestBody AuthRequest request) {
         boolean ok = authService.register(request);
         if (!ok) {
+        	log.error("Unable to register user. Email {} already exists", request.getEmail());
         	return ResponseEntity.badRequest().body("Email already exists");
         }
         return ResponseEntity.ok("Registered");
@@ -90,6 +93,7 @@ public class PokedexController {
 	public ResponseEntity<String> login(@RequestBody AuthRequest request) {
 	    Long userId = authService.login(request);
 	    if (userId == null) {
+	    	log.error("Failed to login. Invalid credentials");
 	    	return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid credentials");
 	    }
@@ -109,6 +113,7 @@ public class PokedexController {
 
 		Long userId = getUserIdFromHeader(request);
         if (userId<0) {
+        	log.error("JWT validation failed for user {}",userId);
             return ResponseEntity.status(401).body("Invalid token");
         }
         
@@ -122,6 +127,7 @@ public class PokedexController {
         
 		Long userId = getUserIdFromHeader(request);
         if (userId<0) {
+        	log.error("JWT validation failed for user {}",userId);
             return ResponseEntity.status(401).body("Invalid token");
         }
 
@@ -132,6 +138,7 @@ public class PokedexController {
 	private Long getUserIdFromHeader(HttpServletRequest request) {
 	    String header = request.getHeader("Authorization");
 	    if (header == null || !header.startsWith("Bearer ")) {
+	    	log.error("Missing or invalid Authorization header");
 	        throw new RuntimeException("Missing or invalid Authorization header");
 	    }
 
@@ -146,6 +153,7 @@ public class PokedexController {
 	    }
 		
 		if (!jwtService.validate(token)) {
+			log.error("JWT validation failed for token {}",token);
 			return -1L;
 		}
 		
