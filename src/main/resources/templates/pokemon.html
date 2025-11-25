@@ -26,20 +26,20 @@
 <div class="container">
    <div class="modal-body">
       <div class="poke-image">
-        <img id="pokeImg" src="/mnt/data/1fa228e2-8ac5-4cee-a7ef-9d6d3e5ea7e6.png" alt="Pokemon image">
+        <img id="pokeImg" th:src="${pokemon['image']['thumbnail']}" alt="Pokemon image">
       </div>
 
       <div class="poke-info">
         <h2 id="pokemonTitle">Pokémon Name</h2>
         <p class="muted small" id="pokemonId" th:text="${pokemon['name']['english']}"></p>
 
-        <p id="pokemonTypes"><strong>Types:</strong> —</p>
-        <p id="pokemonDesc">Short description / flavor text goes here.</p>
+        <strong >Types: </strong><p id="pokemonTypes" th:text="${pokemon['name']['english']}"></p>
+        <p id="pokemonDesc" th:text="${pokemon['description']}">Short description / flavor text goes here.</p>
 
         <div class="poke-stats">
-          <div><strong>Height:</strong> <span id="pokemonHeight">—</span></div>
-          <div><strong>Weight:</strong> <span id="pokemonWeight">—</span></div>
-          <div><strong>Base XP:</strong> <span id="pokemonXp">—</span></div>
+          <div><strong>Height:</strong> <span id="pokemonHeight" th:text="${pokemon['profile']['height']}">—</span></div>
+          <div><strong>Weight:</strong> <span id="pokemonWeight" th:text="${pokemon['profile']['weight']}">—</span></div>
+          <div><strong>Base XP:</strong> <span id="pokemonXp" th:text="${pokemon['profile']['gender']}">—</span></div>
         </div>
 
         <div class="poke-actions">
