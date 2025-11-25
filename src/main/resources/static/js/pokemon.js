@@ -11,7 +11,7 @@ async function addPokemon(pokemonId) {
     try {
         // Get the JWT token from localStorage
         const token = localStorage.getItem("jwt"); // adjust key name if different
-
+console.log("Token:", token);
         if (!token) {
             throw new Error("No JWT token found in localStorage");
         }
