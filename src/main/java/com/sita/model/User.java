@@ -11,8 +11,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String username;  
+    @Column
+    private String nickname;  
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -25,8 +25,8 @@ public class User {
 
     public User() {}
 
-    public User(String username, String email, String passwordHash) {
-        this.username = username;
+    public User(String nickname, String email, String passwordHash) {
+        this.nickname = nickname;
         this.email = email;
         this.passwordHash = passwordHash;
         this.createdAt = LocalDateTime.now();
@@ -34,8 +34,8 @@ public class User {
 
     public Long getId() { return id; }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public String getNickname() { return nickname; }
+    public void setNickname(String nickname) { this.nickname = nickname; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
