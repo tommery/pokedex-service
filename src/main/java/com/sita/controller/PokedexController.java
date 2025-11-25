@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sita.dto.AuthRequest;
 import com.sita.dto.PagedResult;
 import com.sita.dto.PokemonDto;
+import com.sita.exception.AppException;
 import com.sita.logging.AppLogger;
 import com.sita.logging.Log;
 import com.sita.service.AuthService;
@@ -84,7 +85,7 @@ public class PokedexController {
         boolean ok = authService.register(request);
         if (!ok) {
         	log.error("Unable to register user. Email {} already exists", request.getEmail());
-        	return ResponseEntity.badRequest().body("Email already exists");
+        	throw new AppException("User with email "+request.getEmail()+" already exists", HttpStatus.CONFLICT);
         }
         return ResponseEntity.ok("Registered");
     }
