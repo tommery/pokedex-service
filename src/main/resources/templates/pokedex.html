@@ -29,10 +29,6 @@
         Type: <span th:text="${p['type']}">Name</span>
         
         <button th:onclick="'event.preventDefault(); loadPokemonPage('+${p['id']}+')'">Details</button>
-        <a th:href="@{'pokemon/'+${p['id']}}">View Pokémon Details</a>
-        <a th:href="@{/pokemon/{id}(id=${p['id']})}" class="btn btn-primary">View Pokémon Details</a>
-        
-        <button onclick="event.preventDefault(); openLoginModal()">Details</button>
         <button th:onclick="'removePokemon('+${p['id']}+')'">Remove</button>
         <button th:onclick="'addPokemon('+${p['id']}+')'">Add</button>
     </div>
