@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemon Details</title>
+    <link rel="stylesheet" th:href="@{css/style.css?v=1.0.3}">
+	<script th:src="@{js/register.js?v=1.0.3}"></script>
+	<script th:src="@{js/login.js?v=1.0.3}"></script>
+	<script th:src="@{js/pokemon.js?v=1.0.3}"></script>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div>
+        <a href="home" class="logo">Pokedex</a>
+    </div>
+    <div>
+        <a href="#" onclick="event.preventDefault(); openRegisterModal()">Register</a>
+        <a href="#" onclick="event.preventDefault(); openLoginModal()">Login</a>
+     </div>
+</div>
+
+
+<footer>
+    © 2025 Pokedex Exercise
+</footer>
+
+</body>
+</html>

@@ -4,9 +4,11 @@ package com.sita.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.sita.dto.PokemonDto;
 import com.sita.service.AuthService;
@@ -36,4 +38,18 @@ public class PokedexPageController {
         model.addAttribute("pokemons", all); 
         return "pokedex";
     }
+	
+	@GetMapping("/pokemon/{id}")
+	public String getPokemon(@PathVariable int id, Model model) {
+	    PokemonDto pokemon = pokemonService.getPokemon(id);
+
+	    if (pokemon == null) {
+	        return null;
+	    }
+
+	    model.addAttribute("pokemon", pokemon); 
+	    
+	    return "pokemon";
+	}
+	
 }
