@@ -31,7 +31,7 @@ public class AuthService {
 
         User user = new User();
         user.setEmail(req.getEmail());
-        user.setUsername(req.getUsername());
+        user.setNickname(req.getNickname());
         user.setPasswordHash(hashPassword(req.getPassword()));
         try {
             userRepo.save(user);

@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const form = event.target;  
 
             const email = form.elements["email"].value;
-            const username = form.elements["nickname"].value;
+            const nickname = form.elements["nickname"].value;
             const password = form.elements["password"].value;
 
             const response = await fetch("./api/v1/register", {
