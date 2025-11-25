@@ -44,9 +44,9 @@
         </div>
 
         <div class="poke-actions">
-          <button class="btn primary" onclick="onAddToCollection()">Add to Collection</button>
-          <button class="btn" onclick="closePokemonModal()">Close</button>
-        </div>
+        	<button class="btn" th:onclick="'removePokemon('+${pokemon['id']}+')'">Remove</button>
+        	<button class="btn" th:onclick="'addPokemon('+${pokemon['id']}+')'">Add</button>
+       </div>
       </div>
     </div>
  </div>
