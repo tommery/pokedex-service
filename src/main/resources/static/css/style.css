@@ -132,17 +132,18 @@ html, body {
 }
 
 .pokemon-item button {
-    background: #e3350d;
+    background: #4a90e2;
     color: white;
     border: none;
     padding: 6px 12px;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    transition: background 0.3s;
 }
 
 .pokemon-item button:hover {
-    background: #cc2e0c;
+    background: #357abd;
 }
 
 /* --- Footer --- */
