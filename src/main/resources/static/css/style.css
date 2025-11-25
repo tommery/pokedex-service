@@ -69,6 +69,26 @@ html, body {
     gap: 12px;
 }
 
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.action-buttons .btn {
+    padding: 12px 25px;
+    background-color: #1e90ff;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.action-buttons .btn:hover {
+    background-color: #187bcd;
+}
 
 /* --- Buttons --- */
 .btn {
