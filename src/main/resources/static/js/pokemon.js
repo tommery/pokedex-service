@@ -7,3 +7,11 @@ function closeLoginModal() {
 }
 
 
+function addPokemon(id) {
+    alert(id);
+}
+
+
+function removePokemon(id) {
+    alert(id);
+}
