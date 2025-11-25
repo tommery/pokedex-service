@@ -26,7 +26,9 @@
 
     <div th:each="p : ${pokemons}" class="pokemon-item">
         <span th:text="${p['name']['english']}">Name</span>
-        <button th:onclick="'alert(\'Details for Pokémon ID: ' + ${p['id']} + '\')'">Details</button>
+        <button onclick="event.preventDefault(); openLoginModal()">Details</button>
+        <button th:onclick="'removePokemon('+${p['id']}+')'">Remove</button>
+        <button th:onclick="'addPokemon('+${p['id']}+')'">Add</button>
     </div>
 
 </div>
