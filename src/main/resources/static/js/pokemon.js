@@ -17,7 +17,7 @@ async function addPokemon(pokemonId) {
         }
 
         // Make the API call
-        const response = await fetch(`/collection/${pokemonId}`, {
+        const response = await fetch("./api/v1/collection/${pokemonId}", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -49,7 +49,7 @@ async function removePokemon(pokemonId) {
         }
 
         // Make the API call
-        const response = await fetch(`/collection/${pokemonId}`, {
+        const response = await fetch("./api/v1/collection/${pokemonId}", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
