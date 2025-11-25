@@ -39,6 +39,32 @@ async function addPokemon(pokemonId) {
 }
 
 
-function removePokemon(id) {
-    alert(id);
+async function removePokemon(pokemonId) {
+    try {
+        // Get the JWT token from localStorage
+        const token = localStorage.getItem("jwt");
+
+        if (!token) {
+            throw new Error("No JWT token found in localStorage");
+        }
+
+        // Make the API call
+        const response = await fetch(`/collection/${pokemonId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Pokemon removed:", data);
+        return data;
+    } catch (error) {
+        console.error("Failed to remove Pokemon:", error);
+    }
 }
