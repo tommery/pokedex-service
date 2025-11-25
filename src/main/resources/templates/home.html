@@ -5,29 +5,36 @@
     <title>Pokedex Home</title>
     <base href=".">
     <link rel="stylesheet" th:href="@{css/style.css}">
-	<script th:src="@{js/register.js?v=1.0.5}"></script>
-	<script th:src="@{js/login.js?v=1.0.5}"></script>
+	<script th:src="@{js/register.js?v=1.0.7}"></script>
+	<script th:src="@{js/login.js?v=1.0.7}"></script>
 </head>
 
 <body>
 
 <div class="navbar">
     <div>
-        <a href="/home" class="logo">Pokedex</a>
+        <a href="home" class="logo">Pokedex</a>
     </div>
     <div>
-        <a href="/pokedex">Pokémon List</a>
-        <a href="#" onclick="event.preventDefault(); openLoginModal()">Login</a>
         <a href="#" onclick="event.preventDefault(); openRegisterModal()">Register</a>
-    </div>
+        <a href="#" onclick="event.preventDefault(); openLoginModal()">Login</a>
+     </div>
 </div>
 
-<div class="container">
+<div class="welcome-box">
     <h1>Welcome to the Pokedex!</h1>
-    <p>Choose an option below:</p>
+    <p>
+        This is your personal Pokémon companion.  
+        Here you can browse all Pokémon, view detailed stats,
+        and build your own personal collection.
+    </p>
 
-    <div class="menu-box">
+    <p>Select one of the options below:</p>
+
+    <div class="home-actions">
         <a class="menu-button" href="/pokedex">View Pokémon List</a>
+        <a href="#" onclick="event.preventDefault(); openRegisterModal()" class="home-btn">Register</a>
+        <a href="#" onclick="event.preventDefault(); openLoginModal()" class="home-btn">Login</a>
     </div>
 </div>
 
@@ -42,13 +49,13 @@
         <h2>Register</h2>
 
         <form id="registerForm" action="api/v1/register" method="post">
-            <label>Email:</label>
+            <label>Email: <span class="required">*</span></label>
             <input type="email" name="email" required>
 
-            <label>Username:</label>
-            <input type="text" name="username" required>
+            <label>Nickname:</label>
+            <input type="text" name="nickname">
 
-            <label>Password:</label>
+            <label>Password: <span class="required">*</span></label>
             <input type="password" name="password" required>
 
             <button type="submit">Register</button>

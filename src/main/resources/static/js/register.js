@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const form = event.target;  
 
             const email = form.elements["email"].value;
-            const username = form.elements["username"].value;
+            const username = form.elements["nickname"].value;
             const password = form.elements["password"].value;
 
             const response = await fetch("./api/v1/register", {
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ email, username, password })
+                body: JSON.stringify({ email, nickname, password })
             });
 
             const message = await response.text();

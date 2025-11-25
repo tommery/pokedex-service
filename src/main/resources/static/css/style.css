@@ -46,6 +46,25 @@ html, body {
     box-shadow: 0px 0px 10px rgba(0,0,0,0.05);
 }
 
+
+.welcome-box {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.home-actions {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
 /* --- Buttons --- */
 .btn {
     display: inline-block;
@@ -58,9 +77,21 @@ html, body {
     margin-top: 10px;
 }
 
-.btn:hover {
-    background: #cc2e0c;
+.home-btn {
+    display: inline-block;
+    padding: 12px 18px;
+    background: #1f8cff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.2s;
 }
+
+.home-btn:hover {
+    background: #0d6fd1;
+}
+
 
 /* --- Pokémon List --- */
 .pokemon-item {
@@ -98,6 +129,11 @@ footer {
     margin-top: auto; 
 }
 
+.required {
+    color: #ff6b6b;
+    font-weight: bold;
+    margin-left: 3px;
+}
 
 /* ===== MODAL OVERLAY ===== */
 .modal {
