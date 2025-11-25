@@ -68,3 +68,14 @@ async function removePokemon(pokemonId) {
         console.error("Failed to remove Pokemon:", error);
     }
 }
+
+
+async function loadPokemonPage(id) {
+    const response = await fetch(`/pokemon/${id}`);
+    const html = await response.text();
+
+    // מחליף את כל הדוקומנט
+    document.open();
+    document.write(html);
+    document.close();
+}
