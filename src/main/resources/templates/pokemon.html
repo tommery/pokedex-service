@@ -31,7 +31,7 @@
 
       <div class="poke-info">
         <h2 id="pokemonTitle">Pokémon Name</h2>
-        <p class="muted small" id="pokemonId" th:text="${pokemon.name}"></p>
+        <p class="muted small" id="pokemonId" th:text="${pokemon['name']['english']}"></p>
 
         <p id="pokemonTypes"><strong>Types:</strong> —</p>
         <p id="pokemonDesc">Short description / flavor text goes here.</p>
