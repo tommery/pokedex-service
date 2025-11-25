@@ -95,8 +95,7 @@ public class PokedexController {
 	    Long userId = authService.login(request);
 	    if (userId == null) {
 	    	log.error("Failed to login. Invalid credentials");
-	    	return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Invalid credentials");
+	    	throw new AppException("Invalid credentials", HttpStatus.UNAUTHORIZED);
 	    }
 	    return ResponseEntity.ok(jwtService.generateToken(userId));
 	}
@@ -115,7 +114,7 @@ public class PokedexController {
 		Long userId = getUserIdFromHeader(request);
         if (userId<0) {
         	log.error("JWT validation failed for user {}",userId);
-            return ResponseEntity.status(401).body("Invalid token");
+        	throw new AppException("Invalid token", HttpStatus.UNAUTHORIZED);
         }
         
         String result = pokemonService.addPokemonToUser(userId, pokemonId);
@@ -129,7 +128,7 @@ public class PokedexController {
 		Long userId = getUserIdFromHeader(request);
         if (userId<0) {
         	log.error("JWT validation failed for user {}",userId);
-            return ResponseEntity.status(401).body("Invalid token");
+        	throw new AppException("Invalid token", HttpStatus.UNAUTHORIZED);
         }
 
         String result = pokemonService.removePokemonFromUser(userId, pokemonId);
@@ -140,7 +139,7 @@ public class PokedexController {
 	    String header = request.getHeader("Authorization");
 	    if (header == null || !header.startsWith("Bearer ")) {
 	    	log.error("Missing or invalid Authorization header");
-	        throw new RuntimeException("Missing or invalid Authorization header");
+	    	throw new AppException("Missing or invalid Authorization header", HttpStatus.UNAUTHORIZED);
 	    }
 
 	    String token = header.substring(7); // remove "Bearer "
@@ -150,7 +149,7 @@ public class PokedexController {
 	
 	private Long extractUserId(String token) {
 		if (token == null || token.isBlank()) {
-	        throw new RuntimeException("Missing token");
+			throw new AppException("Missing token", HttpStatus.UNAUTHORIZED);
 	    }
 		
 		if (!jwtService.validate(token)) {
