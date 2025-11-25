@@ -24,7 +24,7 @@
 <div class="container">
     <h2>Pokémon List</h2>
 
-    <div th:each="p : ${pokemonList}" class="pokemon-item">
+    <div th:each="p : ${pokemons}" class="pokemon-item">
         <span th:text="${p['name']['english']}">Name</span>
         <button th:onclick="'alert(\'Details for Pokémon ID: ' + ${p['id']} + '\')'">Details</button>
     </div>
