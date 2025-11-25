@@ -28,7 +28,7 @@
         Name: <span th:text="${p['name']['english']}">Name</span>
         Type: <span th:text="${p['type']}">Name</span>
         
-        <button onclick="event.preventDefault(); loadPokemonPage()">Details</button>
+        <button th:onclick="'event.preventDefault(); loadPokemonPage('+${p['id']}+')'">Details</button>
         <a th:href="@{'pokemon/'+${p['id']}}">View Pokémon Details</a>
         <a th:href="@{/pokemon/{id}(id=${p['id']})}" class="btn btn-primary">View Pokémon Details</a>
         
