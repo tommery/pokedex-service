@@ -122,6 +122,40 @@ console.log("Loading page:", pageNumber);
 function renderPagination(totalPages, currentPage) {
     const container = document.getElementById("paginationControls");
     container.innerHTML = "";
+    
+    // Previous
+    container.innerHTML += `
+        <span class="page-btn" onclick="loadPage(${Math.max(1, currentPage - 1)})">&lt;</span>
+    `;
+
+    let start = Math.max(1, currentPage - 2);
+    let end = Math.min(totalPages, currentPage + 2);
+
+    // תיקון לשולי טווח (שיהיה תמיד 5 מספרים אם אפשר)
+    if (currentPage <= 3) {
+        end = Math.min(totalPages, 5);
+    }
+    if (currentPage >= totalPages - 2) {
+        start = Math.max(1, totalPages - 4);
+    }
+
+    // Page numbers
+    for (let i = start; i <= end; i++) {
+        container.innerHTML += `
+            <span class="page-btn ${i === currentPage ? 'active' : ''}"
+                  onclick="loadPage(${i})">${i}</span>
+        `;
+    }
+
+    // Next
+    container.innerHTML += `
+        <span class="page-btn" onclick="loadPage(${Math.min(totalPages, currentPage + 1)})">&gt;</span>
+    `;
+}
+
+function renderPaginationold(totalPages, currentPage) {
+    const container = document.getElementById("paginationControls");
+    container.innerHTML = "";
 
     // Previous button
     container.innerHTML += `
