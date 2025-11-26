@@ -56,6 +56,20 @@ Available API Endpoints
 * /api/v1/collection/{pokemonId}	(POST)		add Pokemon (by id) to user's Pokemons collection
 * /api/v1/collection/{pokemonId}	(DELETE)	remove Pokemon (by id) from user's Pokemons collection
 
+## Frontend UI
+
+A simple client-side UI was added to make interacting with the Pokedex Service easier.
+
+**UI URL:**
+http://localhost:8079/home
+
+The UI allows you to:
+* Register & Login (JWT-based authentication)
+* Browse all Pokémon
+* Filter by name or type
+* View Pokémon details
+* Manage your personal Pokémon collection
+
 ## Help
 
 Check container logs:
