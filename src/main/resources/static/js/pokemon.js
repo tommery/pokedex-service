@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadPage(pageNumber) {
     const size = 10;
 
-    const response = await fetch(`./api/v1/pokemon/list?page=${pageNumber}&size=${size}`);
+    const response = await fetch(`./api/v1/list?page=${pageNumber}&size=${size}`);
     const data = await response.json();
     const totalPages = data.total/data.size + (data.total % data.size === 0 ? 0 : 1);
     console.log("Total pages:", totalPages);
