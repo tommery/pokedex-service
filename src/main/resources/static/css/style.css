@@ -304,3 +304,31 @@ footer {
 }
 
 
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4caf50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.4s;
+    z-index: 2000;
+}
+
+.toast.error {
+    background: #e53935;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+.toast.hidden {
+    display: none;
+}
+
+
+

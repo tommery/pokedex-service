@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Pokedex List</title>
-    <link rel="stylesheet" th:href="@{css/style.css?v=1.0.3}">
-	<script th:src="@{js/register.js?v=1.0.3}"></script>
-	<script th:src="@{js/login.js?v=1.0.3}"></script>
-	<script th:src="@{js/pokemon.js?v=1.0.7s}"></script>
+    <link rel="stylesheet" th:href="@{css/style.css?v=1.0.4}">
+	<script th:src="@{js/register.js?v=1.0.4}"></script>
+	<script th:src="@{js/login.js?v=1.0.4}"></script>
+	<script th:src="@{js/pokemon.js?v=1.0.4}"></script>
 </head>
 
 <body>
@@ -20,6 +20,8 @@
         <a href="#" onclick="event.preventDefault(); openLoginModal()">Login</a>
      </div>
 </div>
+
+<div id="toast" class="toast hidden"></div>
 
 <div class="container">
     <h2>Pokémon List</h2>
