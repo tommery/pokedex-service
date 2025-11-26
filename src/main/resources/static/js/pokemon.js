@@ -113,6 +113,7 @@ console.log("Loading page:", pageNumber);
     const data = await response.json();
     const totalPages = data.total/data.size + (data.total % data.size === 0 ? 0 : 1);
     console.log("Total pages:", totalPages);
+    renderPokemonList(data.items);
     renderPagination(totalPages, pageNumber);
 
     // Later you'll add renderPokemonList(data.items)
@@ -135,14 +136,28 @@ function renderPagination(totalPages, currentPage) {
         `;
     }
 
-    // Ellipsis when more than 3 pages
-    if (totalPages > 3) {
-        container.innerHTML += `<span class="page-dots">...</span>`;
-    }
-
     // Next button
     container.innerHTML += `
         <span class="page-btn" onclick="loadPage(${Math.min(totalPages, currentPage + 1)})">&gt;</span>
     `;
+}
+
+
+function renderPokemonList(pokemons) {
+    const container = document.getElementById("pokemonList");
+    container.innerHTML = "";
+
+    pokemons.forEach(p => {
+        container.innerHTML += `
+            <div class="pokemon-item">
+                Name: <span>${p.name.english}</span>
+                Type: <span>${p.type}</span>
+
+                <button onclick="event.preventDefault(); loadPokemonPage(${p.id})">Details</button>
+                <button onclick="removePokemon(${p.id})">Remove</button>
+                <button onclick="addPokemon(${p.id})">Add</button>
+            </div>
+        `;
+    });
 }
 

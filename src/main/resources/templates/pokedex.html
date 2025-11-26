@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{css/style.css?v=1.0.1}">
 	<script th:src="@{js/register.js?v=1.0.1}"></script>
 	<script th:src="@{js/login.js?v=1.0.1}"></script>
-	<script th:src="@{js/pokemon.js?v=1.0.11}"></script>
+	<script th:src="@{js/pokemon.js?v=1.0.21}"></script>
 </head>
 
 <body>
@@ -26,6 +26,10 @@
 <div class="container">
     <h2>Pokémon List</h2>
 
+	<div id="pokemonList"></div>
+	
+	<div id="paginationControls"></div>
+	
     <div th:each="p : ${pokemons}" class="pokemon-item">
         Name: <span th:text="${p['name']['english']}">Name</span>
         Type: <span th:text="${p['type']}">Name</span>
@@ -34,7 +38,7 @@
         <button th:onclick="'removePokemon('+${p['id']}+')'">Remove</button>
         <button th:onclick="'addPokemon('+${p['id']}+')'">Add</button>
     </div>
-	<div id="paginationControls"></div>
+	
 </div>
 
 
