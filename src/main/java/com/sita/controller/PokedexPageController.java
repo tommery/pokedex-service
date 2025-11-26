@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sita.dto.PagedResult;
 import com.sita.dto.PokemonDto;
 import com.sita.service.AuthService;
 import com.sita.service.PokemonService;
@@ -38,6 +40,28 @@ public class PokedexPageController {
         model.addAttribute("pokemons", all); 
         return "pokedex";
     }
+	
+	@GetMapping("/list")
+	public String list(Model model,
+			@RequestParam(required = false) String name,
+	        @RequestParam(required = false) String type,
+	        @RequestParam(defaultValue = "1") int page,
+	        @RequestParam(defaultValue = "10") int size) {
+
+		size = Math.min(size, 100);  // max size = 100
+	    size = Math.max(size, 10);   // min size = 10
+
+	    int internalPage = Math.max(0, page - 1);
+	    
+	    PagedResult<PokemonDto> result =
+	            pokemonService.getFiltered(name, type, internalPage, size);
+	    
+	    model.addAttribute("pokemons", result.getItems()); 
+	    model.addAttribute("total", result.getTotal()); 
+	    model.addAttribute("page", result.getPage()); 
+	    return "pokedex";
+	}
+	
 	
 	@GetMapping("/pokemon/{id}")
 	public String getPokemon(@PathVariable int id, Model model) {

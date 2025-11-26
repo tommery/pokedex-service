@@ -46,7 +46,7 @@ async function addPokemon(pokemonId) {
 		    showToast(data.message);
 		    return data;
 		} else {
-		    showToast("Login failed!", true);
+		    showToast(data.message, true);
 		    throw new Error(`API error: ${response.status}`);
 		}
 
