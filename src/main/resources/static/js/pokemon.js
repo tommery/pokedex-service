@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadPagination() {
     const response = await fetch("api/v1/list?page=1&size=10");
     const data = await response.json();
-
+console.log(data);
     renderPagination(data.totalPages);
 }
 
