@@ -101,10 +101,6 @@ async function loadPokemonPage(id) {
 }
 
 
-
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
     loadPage(1);
 });
