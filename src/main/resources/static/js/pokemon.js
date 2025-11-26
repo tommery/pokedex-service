@@ -101,29 +101,50 @@ async function loadPokemonPage(id) {
 }
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadPagination();
-});
 
-async function loadPagination() {
-    const response = await fetch("api/v1/list?page=1&size=10");
+
+
+
+//document.addEventListener("DOMContentLoaded", () => {
+//    loadPage(1);
+//});
+
+async function loadPage(pageNumber) {
+    const size = 10;
+
+    const response = await fetch(`./api/v1/pokemon/list?page=${pageNumber}&size=${size}`);
     const data = await response.json();
+    const totalPages = data.total/data.size + (data.total % data.size === 0 ? 0 : 1)
+    renderPagination(totalPages, pageNumber);
 
-    renderPagination(data.total/data.size + (data.total % data.size === 0 ? 0 : 1));
+    // Later you'll add renderPokemonList(data.items)
 }
 
-function renderPagination(totalPages) {
+function renderPagination(totalPages, currentPage) {
     const container = document.getElementById("paginationControls");
     container.innerHTML = "";
 
-    // Previous
-    container.innerHTML += `<span class="page-btn">&lt;</span>`;
+    // Previous button
+    container.innerHTML += `
+        <span class="page-btn" onclick="loadPage(${Math.max(1, currentPage - 1)})">&lt;</span>
+    `;
 
-    // First 3 pages
-    for (let i = 1; i <= Math.min(5, totalPages); i++) {
-        container.innerHTML += `<span class="page-btn">${i}</span>`;
+    // Page numbers (simple: first 3 pages + active state)
+    for (let i = 1; i <= Math.min(3, totalPages); i++) {
+        container.innerHTML += `
+            <span class="page-btn ${i === currentPage ? 'active' : ''}"
+                  onclick="loadPage(${i})">${i}</span>
+        `;
     }
 
-    // Next
-    container.innerHTML += `<span class="page-btn">&gt;</span>`;
+    // Ellipsis when more than 3 pages
+    if (totalPages > 3) {
+        container.innerHTML += `<span class="page-dots">...</span>`;
+    }
+
+    // Next button
+    container.innerHTML += `
+        <span class="page-btn" onclick="loadPage(${Math.min(totalPages, currentPage + 1)})">&gt;</span>
+    `;
 }
+

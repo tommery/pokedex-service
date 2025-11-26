@@ -330,5 +330,26 @@ footer {
     display: none;
 }
 
+#paginationControls {
+    margin-top: 20px;
+}
+
+.page-btn {
+    display: inline-block;
+    margin: 0 6px;         /* <<< space between numbers */
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.page-btn:hover {
+    background: #eee;
+}
+
+.page-btn.active {
+    background: #4285f4;
+    color: white;
+}
 
 
