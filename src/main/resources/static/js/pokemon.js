@@ -99,3 +99,31 @@ async function loadPokemonPage(id) {
     document.write(html);
     document.close();
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadPagination();
+});
+
+async function loadPagination() {
+    const response = await fetch("/pokedex/api/v1/pokemon/list?page=1&size=10");
+    const data = await response.json();
+
+    renderPagination(data.totalPages);
+}
+
+function renderPagination(totalPages) {
+    const container = document.getElementById("paginationControls");
+    container.innerHTML = "";
+
+    // Previous
+    container.innerHTML += `<span class="page-btn">&lt;</span>`;
+
+    // First 3 pages
+    for (let i = 1; i <= Math.min(5, totalPages); i++) {
+        container.innerHTML += `<span class="page-btn">${i}</span>`;
+    }
+
+    // Next
+    container.innerHTML += `<span class="page-btn">&gt;</span>`;
+}
