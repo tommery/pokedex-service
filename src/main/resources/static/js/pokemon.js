@@ -105,9 +105,9 @@ async function loadPokemonPage(id) {
 
 
 
-//document.addEventListener("DOMContentLoaded", () => {
-//    loadPage(1);
-//});
+document.addEventListener("DOMContentLoaded", () => {
+    loadPage(1);
+});
 
 async function loadPage(pageNumber) {
     const size = 10;
