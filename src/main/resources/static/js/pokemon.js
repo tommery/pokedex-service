@@ -122,7 +122,7 @@ async function loadPage(pageNumber) {
         type
     });
     
-    const response = await fetch(`./api/v1/list?page=$${params}`);
+    const response = await fetch(`./api/v1/list?page=${params}`);
     const data = await response.json();
     const totalPages = data.total/data.size + (data.total % data.size === 0 ? 0 : 1);
 
