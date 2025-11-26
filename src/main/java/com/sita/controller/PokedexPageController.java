@@ -59,6 +59,7 @@ public class PokedexPageController {
 	    model.addAttribute("pokemons", result.getItems()); 
 	    model.addAttribute("total", result.getTotal()); 
 	    model.addAttribute("page", result.getPage()); 
+	    model.addAttribute("totalPages", result.getTotal()/size + (result.getTotal() % size == 0 ? 0 : 1));
 	    return "pokedex";
 	}
 	
