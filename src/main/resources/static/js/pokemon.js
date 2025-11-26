@@ -6,12 +6,27 @@ function closeLoginModal() {
     document.getElementById("pokemonModal").style.display = "none";
 }
 
+function showToast(message, isError = false) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+
+    toast.classList.remove("hidden");
+    toast.classList.add("show");
+
+    if (isError) toast.classList.add("error");
+    else toast.classList.remove("error");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.classList.add("hidden"), 400);
+    }, 3000);
+}
 
 async function addPokemon(pokemonId) {
     try {
         // Get the JWT token from localStorage
         const token = localStorage.getItem("jwt"); // adjust key name if different
-console.log("Token:", token);
+
         if (!token) {
             throw new Error("No JWT token found in localStorage");
         }
@@ -26,13 +41,18 @@ console.log("Token:", token);
             body: JSON.stringify({}) // or send any body if required
         });
 
-        if (!response.ok) {
-            throw new Error(`API error: ${response.status}`);
-        }
+		if (response.ok) {
+		    const data = await response.json();
+		    showToast(data.message);
+		    return data;
+		} else {
+		    showToast("Login failed!", true);
+		    throw new Error(`API error: ${response.status}`);
+		}
 
-        const data = await response.json();
-        console.log("Pokemon added:", data);
-        return data;
+        
+        
+        
     } catch (error) {
         console.error("Failed to add Pokemon:", error);
     }

@@ -44,10 +44,15 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             const message = await response.text();
-			localStorage.setItem("jwt", message);
 			closeLoginModal();
 			
-			showToast(message);
+			if (response.ok) {
+			    // save token only if login succeeded
+			    localStorage.setItem("jwt", message);
+			    showToast("Login successful!");
+			} else {
+			    showToast("Login failed!", true);
+			}
         });
     }
     
