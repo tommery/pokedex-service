@@ -110,7 +110,8 @@ async function loadPage(pageNumber) {
 
     const response = await fetch(`./api/v1/pokemon/list?page=${pageNumber}&size=${size}`);
     const data = await response.json();
-    const totalPages = data.total/data.size + (data.total % data.size === 0 ? 0 : 1)
+    const totalPages = data.total/data.size + (data.total % data.size === 0 ? 0 : 1);
+    console.log("Total pages:", totalPages);
     renderPagination(totalPages, pageNumber);
 
     // Later you'll add renderPokemonList(data.items)
