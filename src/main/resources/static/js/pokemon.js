@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function loadPagination() {
-    const response = await fetch("api/v1/pokemon/list?page=1&size=10");
+    const response = await fetch("api/v1/list?page=1&size=10");
     const data = await response.json();
 
     renderPagination(data.totalPages);
