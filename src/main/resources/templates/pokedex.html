@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{css/style.css?v=1.0.1}">
 	<script th:src="@{js/register.js?v=1.0.1}"></script>
 	<script th:src="@{js/login.js?v=1.0.1}"></script>
-	<script th:src="@{js/pokemon.js?v=1.0.31}"></script>
+	<script th:src="@{js/pokemon.js?v=1.0.51}"></script>
 </head>
 
 <body>
@@ -24,7 +24,14 @@
 <div id="toast" class="toast hidden"></div>
 
 <div class="container">
+
     <h2>Pokémon List</h2>
+
+	<div class="filters">
+	    <input type="text" id="filterName" placeholder="Filter by name">
+	    <input type="text" id="filterType" placeholder="Filter by type">
+	    <button id="applyFilters">Apply</button>
+	</div>
 
 	<div id="pokemonList"></div>
 	

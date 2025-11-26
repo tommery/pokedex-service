@@ -103,16 +103,29 @@ async function loadPokemonPage(id) {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadPage(1);
+    
+    document.getElementById("applyFilters").addEventListener("click", () => {
+        loadPage(1); 
+    });
 });
 
 async function loadPage(pageNumber) {
     const size = 10;
 
-console.log("Loading page:", pageNumber);
-    const response = await fetch(`./api/v1/list?page=${pageNumber}&size=${size}`);
+	const name = document.getElementById("filterName").value || "";
+    const type = document.getElementById("filterType").value || "";
+
+    const params = new URLSearchParams({
+        page: pageNumber,
+        size,
+        name,
+        type
+    });
+    
+    const response = await fetch(`./api/v1/list?page=$${params}`);
     const data = await response.json();
     const totalPages = data.total/data.size + (data.total % data.size === 0 ? 0 : 1);
-    console.log("Total pages:", totalPages);
+
     renderPokemonList(data.items);
     renderPagination(totalPages, pageNumber);
 
