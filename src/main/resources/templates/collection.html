@@ -9,6 +9,15 @@
 	<script th:src="@{js/collection.js?v=1.0.1}"></script>
 </head>
 <body>
+	<div class="navbar">
+	    <div>
+	        <a href="home" class="logo">Pokedex</a>
+	    </div>
+	    <div>
+	        <a href="#" onclick="event.preventDefault(); openRegisterModal()">Register</a>
+	        <a href="#" onclick="event.preventDefault(); openLoginModal()">Login</a>
+	     </div>
+	</div>
     <div class="container">
         <h2>My Collection</h2>
         <div id="collectionList"></div>
