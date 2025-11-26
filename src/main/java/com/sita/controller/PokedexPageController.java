@@ -16,6 +16,8 @@ import com.sita.dto.PokemonDto;
 import com.sita.service.AuthService;
 import com.sita.service.PokemonService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class PokedexPageController {
 	
@@ -34,6 +36,11 @@ public class PokedexPageController {
         return "home";
     }
 
+	@GetMapping("/collection")
+	public String getUserCollection(HttpServletRequest request) {
+	    return "collection";
+	}
+	
 	@GetMapping("/pokedex")
     public String list(Model model) {
 		List<PokemonDto> all = pokemonService.getAll();
