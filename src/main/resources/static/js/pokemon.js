@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadPage(pageNumber) {
     const size = 10;
 
+console.log("Loading page:", pageNumber);
     const response = await fetch(`./api/v1/list?page=${pageNumber}&size=${size}`);
     const data = await response.json();
     const totalPages = data.total/data.size + (data.total % data.size === 0 ? 0 : 1);
